@@ -1,0 +1,7 @@
+- name: Create k8s certficate director
+  file: 
+    path: /opt/k8s/certs/
+    owner: root 
+    group: root 
+    mode: 0755 
+    state: directory
