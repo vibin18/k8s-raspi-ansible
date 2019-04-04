@@ -1,0 +1,2 @@
+roles:
+    - {role: 'setup-ca', tags: 'certs'}
