@@ -1,6 +1,3 @@
-vars_files:
- - certs-var.yaml
-
 - name: Create k8s certficate directory
   file: 
     path: {{ ca-cert-path }}
