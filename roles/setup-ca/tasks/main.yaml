@@ -1,7 +1,13 @@
-- name: Create k8s certficate director
+vars_files:
+ - certs-var.yaml
+
+- name: Create k8s certficate directory
   file: 
-    path: /opt/k8s/certs/
-    owner: root 
-    group: root 
+    path: {{ ca-cert-path }}
+    owner: {{ dir-owner }}
+    group: {{ dir-owner }}
     mode: 0755 
     state: directory
+
+- name: "Generate Certs for k8s server || CA setup "
+  shell: 'openssl genrsa -out {{ ca-cert-path }}/ca-key.pem 2048'
