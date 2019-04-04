@@ -1,2 +1,7 @@
-roles:
-    - {role: 'setup-ca', tags: 'certs'}
+- name: Setting up k8s 
+  hosts: raspi-masters
+
+  roles:
+    - role: setup-ca
+      tags: certs
+    - { role: setup-ca,  tags: certs }
