@@ -1,2 +1,2 @@
 ca-cert-path: /opt/k8s/certs/
-dir-owner: root
+dirowner: root
