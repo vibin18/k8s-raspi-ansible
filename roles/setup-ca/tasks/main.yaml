@@ -7,4 +7,6 @@
     state: directory
 
 - name: "Generate Certs for k8s server || CA setup "
-  shell: 'openssl genrsa -out {{ ca.certpath }}/ca-key.pem 2048'
+  shell: 'openssl genrsa -out {{ ca.certpath }}/{{ ca.keyfile }} 2048'
+  args:
+    creates: "{{ ca.certpath }}/{{ ca.keyfile }}"

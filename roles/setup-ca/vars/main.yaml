@@ -1,3 +1,4 @@
 ca:
   certpath: /opt/k8s/certs/
   dirowner: root
+  keyfile: ca-key.pem
