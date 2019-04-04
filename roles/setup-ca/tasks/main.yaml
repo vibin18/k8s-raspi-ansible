@@ -1,4 +1,4 @@
-- name: Create k8s certficate directory
+- name: "Create k8s certficate directory || CA setup. "
   file: 
     path: "{{ ca.certpath }}"
     owner: "{{ ca.dirowner }}"
@@ -6,7 +6,20 @@
     mode: 0755 
     state: directory
 
-- name: "Generate Certs for k8s server || CA setup "
+- name: "Create k8s csr directory || CA setup. "
+  file: 
+    path: "{{ ca.reqpath }}"
+    owner: "{{ ca.dirowner }}"
+    group: "{{ ca.dirowner }}"
+    mode: 0755 
+    state: directory
+
+- name: "Generate key for k8s server || CA setup. "
   shell: 'openssl genrsa -out {{ ca.certpath }}/{{ ca.keyfile }} 2048'
   args:
     creates: "{{ ca.certpath }}/{{ ca.keyfile }}"
+
+- name: "Generate csr for k8s server || CA setup. "
+  shell: 'openssl req -x509 -new -key {{ ca.certpath }}/{{ ca.keyfile }} -out {{ ca.certpath }}/{{ ca.certfile }}-subj "/O=kubernetes/CN=kubernetes" -config server-openssl.cnf' 
+  args: 
+    creates: "{{ ca.certpath }}/{{ ca.certfile }}"
