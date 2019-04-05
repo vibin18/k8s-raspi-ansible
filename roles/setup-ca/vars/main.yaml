@@ -7,6 +7,8 @@ ca:
   k8scert: kubernetes.crt
 server:
   certpath: /opt/k8s/certs/
+  reqpath: /opt/k8s/certs/cer-reqs
   dirowner: root
   keyfile: server-key.pem
-  certfile: server-cert.crt  
+  certfile: server-cert.crt
+  ip: 192.168.0.203
