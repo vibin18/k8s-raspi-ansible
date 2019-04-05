@@ -36,6 +36,6 @@
 
 
 - name: "Generate certs for k8s server || CA setup. "
-  shell: 'openssl x509 -req -in {{ server.reqpath }}/server.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ server.certpath }}/{{ server.certfile }} -days 10000 -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl x509 -req -in {{ server.reqpath }}/server.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ server.certpath }}/{{ server.certfile }} -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-openssl.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
