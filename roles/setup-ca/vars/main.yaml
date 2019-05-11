@@ -18,3 +18,15 @@ admin:
   dirowner: root
   keyfile: admin-key.pem
   certfile: admin-cert.crt
+controllmgr:
+  certpath: /opt/k8s/certs
+  reqpath: /opt/k8s/certs/cer-reqs
+  dirowner: root
+  keyfile: controllmgr.pem
+  certfile: controllmgr.crt
+scheduler :
+  certpath: /opt/k8s/certs
+  reqpath: /opt/k8s/certs/cer-reqs
+  dirowner: root
+  keyfile: scheduler.pem
+  certfile: scheduler.crt

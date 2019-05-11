@@ -24,8 +24,6 @@
   args: 
     creates: "{{ ca.certpath }}/{{ ca.certfile }}"
 
-
-
 - name: "Generate key for k8s server || CA setup. "
   shell: 'openssl genrsa -out {{ server.certpath }}/{{ server.keyfile }} 2048'
   args:
@@ -41,9 +39,6 @@
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 
-
-
-
 - name: "Generate key for server admin || CA setup. "
   shell: 'openssl genrsa -out {{ admin.certpath }}/{{ admin.keyfile }} 2048'
   args:
@@ -58,3 +53,33 @@
   shell: 'openssl x509 -req -in {{ admin.reqpath }}/admin.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ admin.certpath }}/{{ admin.certfile }} -days 10000 -extensions v3_req' 
   args: 
     creates: "{{ admin.certpath }}/{{ admin.certfile }}"
+
+- name: "Generate key for controllmgr || CA setup. "
+  shell: 'openssl genrsa -out {{ controllmgr.certpath }}/{{ controllmgr.keyfile }} 2048'
+  args:
+    creates: "{{ controllmgr.certpath }}/{{ controllmgr.keyfile }}"
+
+- name: "Generate csr for controllmgr || CA setup. "
+  shell: 'openssl req -new -key {{ controllmgr.certpath }}/{{ controllmgr.keyfile }} -subj "/CN=system:kube-controller-manager/O=system:kube-controller-manager"  -out {{ controllmgr.reqpath }}/controllmgr.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  args: 
+    creates: "{{ controllmgr.certpath }}/{{ controllmgr.certfile }}"
+
+- name: "Generate certs for controllmgr || CA setup. "
+  shell: 'openssl x509 -req -in {{ controllmgr.reqpath }}/controllmgr.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ controllmgr.certpath }}/{{ controllmgr.certfile }} -days 10000 -extensions v3_req' 
+  args: 
+    creates: "{{ controllmgr.certpath }}/{{ controllmgr.certfile }}"
+
+- name: "Generate key for scheduler || CA setup. "
+  shell: 'openssl genrsa -out {{ scheduler.certpath }}/{{ scheduler.keyfile }} 2048'
+  args:
+    creates: "{{ scheduler.certpath }}/{{ scheduler.keyfile }}"
+
+- name: "Generate csr for scheduler || CA setup. "
+  shell: 'openssl req -new -key {{ scheduler.certpath }}/{{ scheduler.keyfile }} -subj "/CN=system:kube-scheduler/O=system:kube-scheduler"  -out {{ scheduler.reqpath }}/scheduler.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  args: 
+    creates: "{{ controllmgr.certpath }}/{{ controllmgr.certfile }}"
+
+- name: "Generate certs for scheduler || CA setup. "
+  shell: 'openssl x509 -req -in {{ scheduler.reqpath }}/controllmgr.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ scheduler.certpath }}/{{ scheduler.certfile }} -days 10000 -extensions v3_req' 
+  args: 
+    creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
