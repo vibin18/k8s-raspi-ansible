@@ -41,7 +41,7 @@
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 
 - name: "Generate key for server admin || CA setup. "
-  shell: 'openssl genrsa -out {{ server.certpath }}/{{ server.keyfile }} 2048'
+  shell: 'openssl genrsa -out {{ admin.certpath }}/{{ admin.keyfile }} 2048'
   args:
     creates: "{{ admin.certpath }}/{{ admin.keyfile }}"
 
