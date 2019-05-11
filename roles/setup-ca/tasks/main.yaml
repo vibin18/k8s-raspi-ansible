@@ -24,6 +24,8 @@
   args: 
     creates: "{{ ca.certpath }}/{{ ca.certfile }}"
 
+
+
 - name: "Generate key for k8s server || CA setup. "
   shell: 'openssl genrsa -out {{ server.certpath }}/{{ server.keyfile }} 2048'
   args:
@@ -34,11 +36,13 @@
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 
-
 - name: "Generate certs for k8s server || CA setup. "
   shell: 'openssl x509 -req -in {{ server.reqpath }}/server.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ server.certpath }}/{{ server.certfile }} -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-openssl.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
+
+
+
 
 - name: "Generate key for server admin || CA setup. "
   shell: 'openssl genrsa -out {{ admin.certpath }}/{{ admin.keyfile }} 2048'
@@ -51,6 +55,6 @@
     creates: "{{ admin.certpath }}/{{ admin.certfile }}"
 
 - name: "Generate certs for server admin || CA setup. "
-  shell: 'openssl x509 -req -in {{ admin.reqpath }}/admin.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ admin.certpath }}/{{ admin.certfile }} -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl x509 -req -in {{ admin.reqpath }}/admin.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ admin.certpath }}/{{ admin.certfile }} -days 10000 -extensions v3_req' 
   args: 
     creates: "{{ admin.certpath }}/{{ admin.certfile }}"
