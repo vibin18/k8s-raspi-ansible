@@ -77,7 +77,7 @@
 - name: "Generate csr for scheduler || CA setup. "
   shell: 'openssl req -new -key {{ scheduler.certpath }}/{{ scheduler.keyfile }} -subj "/CN=system:kube-scheduler/O=system:kube-scheduler"  -out {{ scheduler.reqpath }}/scheduler.csr -config {{ role_path }}/files/server-openssl.cnf' 
   args: 
-    creates: "{{ controllmgr.certpath }}/{{ controllmgr.certfile }}"
+    creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
 
 - name: "Generate certs for scheduler || CA setup. "
   shell: 'openssl x509 -req -in {{ scheduler.reqpath }}/controllmgr.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ scheduler.certpath }}/{{ scheduler.certfile }} -days 10000 -extensions v3_req' 
