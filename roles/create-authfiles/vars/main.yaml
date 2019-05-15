@@ -1,0 +1,23 @@
+etcdctl:
+  k8sbinpath: /root/Kubernetes-Arm-Binaries
+  binpath: /usr/bin/etcdctl
+controllmgr:
+  certpath: /opt/k8s/certs
+  keyfile: controllmgr.pem
+  certfile: controllmgr.crt
+  authfilepath: /opt/k8s/api-confs
+  authfile: kube-controller-manager.kubeconfig
+scheduler:
+  certpath: /opt/k8s/certs
+  keyfile: scheduler.pem
+  certfile: scheduler.crt
+  authfilepath: /opt/k8s/api-confs
+  authfile: kube-scheduler.kubeconfig
+ca:
+  certpath: /opt/k8s/certs
+  certfile: ca-cert.crt
+server:
+  certpath: /opt/k8s/certs
+  keyfile: server-key.pem
+  certfile: server-cert.crt
+  url: https://192.168.0.203
