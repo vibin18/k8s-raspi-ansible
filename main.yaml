@@ -5,3 +5,6 @@
     - role: setup-ca
       tags: certs
     - { role: setup-ca,  tags: certs }
+    - role: create-authfiles
+      tags: authfiles
+    - { role: create-authfiles,  tags: authfiles }
