@@ -1,5 +1,5 @@
 etcdctl:
-  k8sbinpath: /root/Kubernetes-Arm-Binaries
+  k8sbinpath: /root/Kubernetes-Arm-Binaries/etcdctl
   binpath: /usr/bin/etcdctl
 controllmgr:
   certpath: /opt/k8s/certs

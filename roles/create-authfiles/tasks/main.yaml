@@ -2,21 +2,14 @@
   stat: path="{{ etcdctl.binpath }}"
   register: EVELYN
 
-- debug: msg="{{ etcdctl.binpath }}" found.
-  when: EVELYN.stat.exists
-- debug: msg="{{ etcdctl.binpath }}" has NO permission.
-  when: EVELYN.stat.executable == False
-- debug: msg="{{ etcdctl.binpath }}" not found.
-  when: EVELYN.stat.exists == False
-
 - name: "Trying to copy the binary from k8s binary location || Create-Authfiles setup. "
   copy:
-    src: "{{ etcdctl.binpath }}"
-    dest: "{{ etcdctl.k8sbinpath }}"
+    src: "{{ etcdctl.k8sbinpath }}"
+    dest: "{{ etcdctl.binpath }}"
     owner: root
     group: root
     mode: u+rwx,g-wx,o-rwx
-  when: EVELYN.stat.exists == False or EVELYN.stat.executable == False
+  when: EVELYN.stat.exists == False
 
 - name: "Creating Auth Config directories || Create-Authfiles setup. "
   file:
@@ -32,10 +25,9 @@
 
 - name: "Generate auth files for kube-controller-manager || Create-Authfiles setup. "
   shell: |
-    kubectl config set-cluster test --certificate-authority="{{ server.certpath }}/{{ server.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item }}.authfile"
-    kubectl config set-credentials system:k"{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.keyfile" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
-    kubectl config set-context default --cluster=test --user=system:"{{ item.service }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile
-    and_some_other_stuff
-  loop: 
+    kubectl config set-cluster test --certificate-authority="{{ server.certpath }}/{{ server.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+    kubectl config set-credentials system:"{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.name }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.pem" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+    kubectl config set-context default --cluster=test --user=system:"{{ item.service }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+  with_items:
     - { name: 'controllmgr', service: 'kube-controller-manager' }
     - { name: 'scheduler', service: 'kube-scheduler' }
