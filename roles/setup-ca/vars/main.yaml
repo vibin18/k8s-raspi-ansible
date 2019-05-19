@@ -16,8 +16,8 @@ admin:
   certpath: /opt/k8s/certs
   reqpath: /opt/k8s/certs/cer-reqs
   dirowner: root
-  keyfile: admin-key.pem
-  certfile: admin-cert.crt
+  keyfile: admin.pem
+  certfile: admin.crt
 controllmgr:
   certpath: /opt/k8s/certs
   reqpath: /opt/k8s/certs/cer-reqs
