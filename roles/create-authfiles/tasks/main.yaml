@@ -25,9 +25,10 @@
 
 - name: "Generate auth files for kube-controller-manager || Create-Authfiles setup. "
   shell: |
-    kubectl config set-cluster test --certificate-authority="{{ server.certpath }}/{{ server.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+    kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-credentials system:"{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.name }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.pem" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-context default --cluster=test --user=system:"{{ item.service }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
   with_items:
-    - { name: 'controllmgr', service: 'kube-controller-manager' }
-    - { name: 'scheduler', service: 'kube-scheduler' }
+    - { name: 'controllmgr', service: 'system:kube-controller-manager' }
+    - { name: 'scheduler', service: 'system:kube-scheduler' }
+    - { name: 'admin', service: 'admin' }
