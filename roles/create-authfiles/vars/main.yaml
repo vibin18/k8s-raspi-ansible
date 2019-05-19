@@ -1,5 +1,6 @@
 etcdctl:
   k8sbinpath: /root/Kubernetes-Arm-Binaries/kubectl
+  binpath: /usr/bin/kubectl
 controllmgr:
   certpath: /opt/k8s/certs
   keyfile: controllmgr.pem
