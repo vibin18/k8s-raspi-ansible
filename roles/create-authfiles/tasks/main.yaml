@@ -28,6 +28,7 @@
     kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-credentials "{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.name }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.pem" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-context default --cluster=test --user="{{ item.service }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+    kubectl config use-context default
   with_items:
     - { name: 'controllmgr', service: 'system:kube-controller-manager' }
     - { name: 'scheduler', service: 'system:kube-scheduler' }
