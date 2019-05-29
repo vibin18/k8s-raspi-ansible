@@ -26,4 +26,5 @@
   with_items:
     - { name: 'controllmgr', service: 'system:kube-controller-manager' }
     - { name: 'scheduler', service: 'system:kube-scheduler' }
+    - { name: 'node', service: 'system:nodes' }
     - { name: 'admin', service: 'admin' }
