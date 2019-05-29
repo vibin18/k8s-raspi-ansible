@@ -30,3 +30,9 @@ scheduler :
   dirowner: root
   keyfile: scheduler.pem
   certfile: scheduler.crt
+nodes :
+  certpath: /opt/k8s/certs
+  reqpath: /opt/k8s/certs/cer-reqs
+  dirowner: root
+  keyfile: node.pem
+  certfile: node.crt
