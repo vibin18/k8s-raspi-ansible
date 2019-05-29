@@ -80,6 +80,6 @@
     creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
 
 - name: "Generate certs for scheduler || CA setup. "
-  shell: 'openssl x509 -req -in {{ scheduler.reqpath }}/controllmgr.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ scheduler.certpath }}/{{ scheduler.certfile }} -days 10000 -extensions v3_req' 
+  shell: 'openssl x509 -req -in {{ scheduler.reqpath }}/scheduler.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ scheduler.certpath }}/{{ scheduler.certfile }} -days 10000 -extensions v3_req' 
   args: 
     creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
