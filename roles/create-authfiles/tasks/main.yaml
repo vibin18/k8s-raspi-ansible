@@ -18,12 +18,6 @@
     mode: 0755
 
 - name: "Generate auth files for kube-controller-manager || Create-Authfiles setup. "
-  shell: 'openssl genrsa -out {{ server.certpath }}/{{ server.keyfile }} 2048'
-  args:
-    creates: "{{ server.certpath }}/{{ server.keyfile }}"
-
-
-- name: "Generate auth files for kube-controller-manager || Create-Authfiles setup. "
   shell: |
     kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-credentials "{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.name }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.pem" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
