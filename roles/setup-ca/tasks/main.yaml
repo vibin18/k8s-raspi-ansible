@@ -98,3 +98,18 @@
   shell: 'openssl x509 -req -in {{ nodes.reqpath }}/nodes.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{ nodes.certfile }} -days 10000 -extensions v3_req' 
   args: 
     creates: "{{ nodes.certpath }}/{{ nodes.certfile }}"
+
+- name: "Generate key for kube-proxy || CA setup. "
+  shell: 'openssl genrsa -out {{ proxy.certpath }}/{{ proxy.keyfile }} 2048'
+  args:
+    creates: "{{ proxy.certpath }}/{{ proxy.keyfile }}"
+
+- name: "Generate csr for kube-proxy  || CA setup. "
+  shell: 'openssl req -new -key {{ proxy.certpath }}/{{ proxy.keyfile }} -subj "/CN=system:kube-proxy/O=system:kube-proxy"  -out {{ proxy.reqpath }}/proxy.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  args: 
+    creates: "{{ proxy.certpath }}/{{ proxy.certfile }}"
+
+- name: "Generate certs for kube-proxy  || CA setup. "
+  shell: 'openssl x509 -req -in {{ proxy.reqpath }}/proxy.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ proxy.certpath }}/{{ proxy.certfile }} -days 10000 -extensions v3_req' 
+  args: 
+    creates: "{{ proxy.certpath }}/{{ proxy.certfile }}"

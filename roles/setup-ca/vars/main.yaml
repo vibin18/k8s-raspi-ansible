@@ -36,3 +36,9 @@ nodes :
   dirowner: root
   keyfile: node.pem
   certfile: node.crt
+proxy :
+  certpath: /opt/k8s/certs
+  reqpath: /opt/k8s/certs/cer-reqs
+  dirowner: root
+  keyfile: kube-proxy.pem
+  certfile: kube-proxy.crt
