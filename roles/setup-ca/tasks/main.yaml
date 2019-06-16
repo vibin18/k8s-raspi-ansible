@@ -84,20 +84,6 @@
   args: 
     creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
 
-- name: "Generate key for nodes || CA setup. "
-  shell: 'openssl genrsa -out {{ nodes.certpath }}/{{ nodes.keyfile }} 2048'
-  args:
-    creates: "{{ nodes.certpath }}/{{ nodes.keyfile }}"
-
-- name: "Generate csr for nodes || CA setup. "
-  shell: 'openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node/O=system:node"  -out {{ nodes.reqpath }}/nodes.csr -config {{ role_path }}/files/server-openssl.cnf' 
-  args: 
-    creates: "{{ nodes.certpath }}/{{ nodes.certfile }}"
-
-- name: "Generate certs for nodes || CA setup. "
-  shell: 'openssl x509 -req -in {{ nodes.reqpath }}/nodes.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{ nodes.certfile }} -days 10000 -extensions v3_req' 
-  args: 
-    creates: "{{ nodes.certpath }}/{{ nodes.certfile }}"
 
 - name: "Generate key for kube-proxy || CA setup. "
   shell: 'openssl genrsa -out {{ proxy.certpath }}/{{ proxy.keyfile }} 2048'
@@ -113,3 +99,13 @@
   shell: 'openssl x509 -req -in {{ proxy.reqpath }}/proxy.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ proxy.certpath }}/{{ proxy.certfile }} -days 10000 -extensions v3_req' 
   args: 
     creates: "{{ proxy.certpath }}/{{ proxy.certfile }}"
+
+
+- name: "Generate certs for nodes || CA setup. "
+  shell: |
+    openssl genrsa -out {{ nodes.certpath }}/{{ nodes.keyfile }} 2048
+    openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item.node}}/O=system:nodes"  -out {{ nodes.reqpath }}/nodes.csr -config {{ role_path }}/files/server-openssl.cnf
+    openssl x509 -req -in {{ nodes.reqpath }}/nodes.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{ nodes.certfile }} -days 10000 -extensions v3_req
+  with_items:
+    - { node: 'nuc1' }
+    - { node: 'nuc2' }
