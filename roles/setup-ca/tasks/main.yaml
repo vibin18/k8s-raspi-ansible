@@ -104,8 +104,8 @@
 - name: "Generate certs for nodes || CA setup. "
   shell: |
     openssl genrsa -out {{ nodes.certpath }}/{{ nodes.keyfile }} 2048
-    openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item.node}}/O=system:nodes"  -out {{ nodes.reqpath }}/nodes.csr -config {{ role_path }}/files/server-openssl.cnf
-    openssl x509 -req -in {{ nodes.reqpath }}/nodes.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{ nodes.certfile }} -days 10000 -extensions v3_req
+    openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item.node}}/O=system:nodes"  -out {{ nodes.reqpath }}/{{item.node}}.csr -config {{ role_path }}/files/server-openssl.cnf
+    openssl x509 -req -in {{ nodes.reqpath }}/{{item.node}}.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{item.node}}.crt -days 10000 -extensions v3_req
   with_items:
     - { node: 'nuc1' }
     - { node: 'nuc2' }

@@ -17,7 +17,7 @@
     state: directory
     mode: 0755
 
-- name: "Generate auth files for kube-controller-manager || Create-Authfiles setup. "
+- name: "Generate auth files for ControlPlane || Create-Authfiles setup. "
   shell: |
     kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-credentials "{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.name }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.pem" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
@@ -26,6 +26,15 @@
   with_items:
     - { name: 'controllmgr', service: 'system:kube-controller-manager' }
     - { name: 'scheduler', service: 'system:kube-scheduler' }
-    - { name: 'node', service: 'system:nodes' }
     - { name: 'kube-proxy', service: 'system:kube-proxy' }
     - { name: 'admin', service: 'admin' }
+
+- name: "Generate auth files for nodes|| Create-Authfiles setup. "
+  shell: |
+    kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+    kubectl config set-credentials "system:node:{{ item.node }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.node }}.crt" --client-key="{{ controllmgr.certpath }}/{{ nodes.keyfile }} " --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.node}}.authfile"
+    kubectl config set-context default --cluster=test --user="system:node:{{ item.node }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.node }}.authfile"
+    kubectl config use-context default --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.node }}.authfile"
+  with_items:
+    - { node: 'nuc1' }
+    - { node: 'nuc2' }
