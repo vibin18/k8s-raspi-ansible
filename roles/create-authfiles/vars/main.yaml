@@ -26,4 +26,5 @@ nodes :
   reqpath: /opt/k8s/certs/cer-reqs
   dirowner: root
   keyfile: node.pem
+  authfilepath: /opt/k8s/api-confs
 
