@@ -32,9 +32,10 @@
 - name: "Generate auth files for nodes|| Create-Authfiles setup. "
   shell: |
     kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ nodes.authfilepath }}/{{ item.node }}.authfile"
-    kubectl config set-credentials "system:node:{{ item.node }}" --client-certificate="{{ nodes.certpath }}/{{ item.node }}.crt" --client-key="{{ nodes.certpath }}/{{ nodes.keyfile }} " --embed-certs=true --kubeconfig="{{ nodes.authfilepath }}/{{ item.node}}.authfile"
+    kubectl config set-credentials system:node:"{{ item.node }}" --client-certificate="{{ ca.certpath }}"/"{{ item.node }}".crt --client-key="{{ ca.certpath }}"/"{{ nodes.keyfile }}" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}"/"{{ item.node }}".authfile
     kubectl config set-context default --cluster=test --user="system:node:{{ item.node }}" --kubeconfig="{{ nodes.authfilepath }}/{{ item.node }}.authfile"
     kubectl config use-context default --kubeconfig="{{ nodes.authfilepath }}/{{ item.node }}.authfile"
   with_items:
     - { node: 'nuc1' }
     - { node: 'nuc2' }
+
