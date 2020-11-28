@@ -15,5 +15,5 @@
   lineinfile:
     dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
     # regexp: "{{ item.regexp }}"
-    line: "{{ item }}"
-  with_items: "{{ groups['k8s_nodes','k8s_masters'] }}"
+    line: 'DNS.5 :'" {{ item }}"
+  with_items: "{{ groups['k8s_nodes'] }}"
