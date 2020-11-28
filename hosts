@@ -44,3 +44,5 @@
 
 [raspi-masters]
 192.168.0.203
+
+[k8s-nodes]
