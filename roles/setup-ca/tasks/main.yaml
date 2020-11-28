@@ -105,6 +105,6 @@
   shell: |
     openssl genrsa -out {{ nodes.certpath }}/{{ nodes.keyfile }} 2048
     openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item}}/O=system:nodes"  -out {{ nodes.reqpath }}/{{item}}.csr -config {{ role_path }}/files/server-openssl.cnf
-    openssl x509 -req -in {{ nodes.reqpath }}/{{item}}.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{item.node}}.crt -days 10000 -extensions v3_req
+    openssl x509 -req -in {{ nodes.reqpath }}/{{item}}.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{item}}.crt -days 10000 -extensions v3_req
   with_items: "{{ groups['k8s_nodes'] }}"
     # - { node: 'nuc2' }
