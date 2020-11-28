@@ -15,5 +15,5 @@
   lineinfile:
     dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
     # regexp: "{{ item.regexp }}"
-    line: DNS."{{ lookup('env', 'ansible_loop.index') }}":" {{ item }}"
+    line: DNS.{{ lookup('env', 'ansible_loop.index') }}: {{ item }}
   with_items: "{{ groups['k8s_nodes'] }}"
