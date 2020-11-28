@@ -1,5 +1,5 @@
 - name: Setting up k8s 
-  hosts: raspi-masters
+  hosts: k8s_masters
 
   roles:
     - role: setup-ca
