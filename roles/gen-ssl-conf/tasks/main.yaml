@@ -6,7 +6,7 @@
 - name: Generating ssl conf file from inventory
   template:
     src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
-    dest: /inventory_dir/setup-ca/files/server-ssl.cnf
+    dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
     owner: root
     group: root
     mode: '0640'
