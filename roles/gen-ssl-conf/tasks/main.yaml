@@ -1,13 +1,19 @@
+- name: Find out playbook's path
+  shell: pwd
+  register: playbook_path_output
+- debug: var=playbook_path_output.stdout
+
 - name: Generating ssl conf file from inventory
   template:
-    src: /role_path/files/ssl-template.j2
+    src: /playbook_path_output/gen-ssl-conf/files/ssl-template.j2
     dest: /inventory_dir/setup-ca/files/server-ssl.cnf
     owner: root
     group: root
     mode: '0640'
+
 - name: Adding SANs from inventory 
   lineinfile:
-    dest: /inventory_dir/setup-ca/files/server-ssl.cnf
+    dest: /playbook_path_output/setup-ca/files/server-ssl.cnf
     # regexp: "{{ item.regexp }}"
     line: "{{ item }}"
   with_items: "{{ groups['k8s_nodes','k8s_masters'] }}"
