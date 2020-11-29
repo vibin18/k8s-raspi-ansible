@@ -20,7 +20,7 @@
     creates: "{{ ca.certpath }}/{{ ca.keyfile }}"
 
 - name: "Generate self signed certs for k8s api || CA setup. "
-  shell: 'openssl req -x509 -new -key {{ ca.certpath }}/{{ ca.keyfile }} -out {{ ca.certpath }}/{{ ca.certfile }} -subj "/O=kubernetes/CN=kubernetes" -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl req -x509 -new -key {{ ca.certpath }}/{{ ca.keyfile }} -out {{ ca.certpath }}/{{ ca.certfile }} -subj "/O=kubernetes/CN=kubernetes" -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ ca.certpath }}/{{ ca.certfile }}"
 
@@ -30,12 +30,12 @@
     creates: "{{ server.certpath }}/{{ server.keyfile }}"
 
 - name: "Generate csr for k8s server || CA setup. "
-  shell: 'openssl req -new -key {{ server.certpath }}/{{ server.keyfile }} -subj "/CN={{ server.ip }}"  -out {{ server.reqpath }}/server.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl req -new -key {{ server.certpath }}/{{ server.keyfile }} -subj "/CN={{ server.ip }}"  -out {{ server.reqpath }}/server.csr -config {{ role_path }}/files/server-ssl.cnf.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 
 - name: "Generate certs for k8s server || CA setup. "
-  shell: 'openssl x509 -req -in {{ server.reqpath }}/server.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ server.certpath }}/{{ server.certfile }} -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl x509 -req -in {{ server.reqpath }}/server.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ server.certpath }}/{{ server.certfile }} -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 
@@ -45,7 +45,7 @@
     creates: "{{ admin.certpath }}/{{ admin.keyfile }}"
 
 - name: "Generate csr for server admin || CA setup. "
-  shell: 'openssl req -new -key {{ admin.certpath }}/{{ admin.keyfile }} -subj "/CN=admin/O=system:masters"  -out {{ admin.reqpath }}/admin.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl req -new -key {{ admin.certpath }}/{{ admin.keyfile }} -subj "/CN=admin/O=system:masters"  -out {{ admin.reqpath }}/admin.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ admin.certpath }}/{{ admin.certfile }}"
 
@@ -60,7 +60,7 @@
     creates: "{{ controllmgr.certpath }}/{{ controllmgr.keyfile }}"
 
 - name: "Generate csr for controllmgr || CA setup. "
-  shell: 'openssl req -new -key {{ controllmgr.certpath }}/{{ controllmgr.keyfile }} -subj "/CN=system:kube-controller-manager/O=system:kube-controller-manager"  -out {{ controllmgr.reqpath }}/controllmgr.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl req -new -key {{ controllmgr.certpath }}/{{ controllmgr.keyfile }} -subj "/CN=system:kube-controller-manager/O=system:kube-controller-manager"  -out {{ controllmgr.reqpath }}/controllmgr.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ controllmgr.certpath }}/{{ controllmgr.certfile }}"
 
@@ -75,7 +75,7 @@
     creates: "{{ scheduler.certpath }}/{{ scheduler.keyfile }}"
 
 - name: "Generate csr for scheduler || CA setup. "
-  shell: 'openssl req -new -key {{ scheduler.certpath }}/{{ scheduler.keyfile }} -subj "/CN=system:kube-scheduler/O=system:kube-scheduler"  -out {{ scheduler.reqpath }}/scheduler.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl req -new -key {{ scheduler.certpath }}/{{ scheduler.keyfile }} -subj "/CN=system:kube-scheduler/O=system:kube-scheduler"  -out {{ scheduler.reqpath }}/scheduler.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
 
@@ -91,7 +91,7 @@
     creates: "{{ proxy.certpath }}/{{ proxy.keyfile }}"
 
 - name: "Generate csr for kube-proxy  || CA setup. "
-  shell: 'openssl req -new -key {{ proxy.certpath }}/{{ proxy.keyfile }} -subj "/CN=system:kube-proxy/O=system:kube-proxy"  -out {{ proxy.reqpath }}/proxy.csr -config {{ role_path }}/files/server-openssl.cnf' 
+  shell: 'openssl req -new -key {{ proxy.certpath }}/{{ proxy.keyfile }} -subj "/CN=system:kube-proxy/O=system:kube-proxy"  -out {{ proxy.reqpath }}/proxy.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ proxy.certpath }}/{{ proxy.certfile }}"
 
@@ -104,7 +104,7 @@
 - name: "Generate certs for nodes || CA setup. "
   shell: |
     openssl genrsa -out {{ nodes.certpath }}/{{ nodes.keyfile }} 2048
-    openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item}}/O=system:nodes"  -out {{ nodes.reqpath }}/{{item}}.csr -config {{ role_path }}/files/server-openssl.cnf
+    openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item}}/O=system:nodes"  -out {{ nodes.reqpath }}/{{item}}.csr -config {{ role_path }}/files/server-ssl.cnf
     openssl x509 -req -in {{ nodes.reqpath }}/{{item}}.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{item}}.crt -days 10000 -extensions v3_req
   with_items: "{{ groups['k8s_nodes'] }}"
     # - { node: 'nuc2' }
