@@ -1,12 +1,24 @@
-- name: "Test1"
+- name: Play
+  hosts: HOST01
   vars:
-    sannames: "{{ groups['k8s_nodes'] }}"
-
+    url: https://website.com/file.sh
   tasks:
-    - name: Download file
-      template:
-        src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
-        dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
-        owner: root
-        group: root
-        mode: '0640'
+     - name: Download file
+       get_url:
+         url: {{ url }}
+         dest: /tmp/file.sh
+         mode: 0777
+
+
+# - name: "Test1"
+#   vars:
+#     sannames: "{{ groups['k8s_nodes'] }}"
+
+#   tasks:
+#     - name: Download file
+#       template:
+#         src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
+#         dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
+#         owner: root
+#         group: root
+#         mode: '0640'
