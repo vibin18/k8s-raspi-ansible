@@ -1,6 +1,7 @@
-- name: "Ading SANS from inventory file || Gen SSL Conf. "
+- name: "Ading SANS from inventory file || Gen SSL Conf."
   vars:
     sannames: "{{ groups['k8s_nodes'] }}"
+
 - name: Download file
   template:
     src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
