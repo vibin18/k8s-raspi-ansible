@@ -15,5 +15,5 @@ DNS.4 = kubernetes.default.svc.cluster.local
 
 {% for host in servers %}
 DNS.{{sanId}} = {{ host }}
-{% set sanId = {{sanId}} + 1 %}
+{% set sanId=sanId+1 %}
 {% endfor %}
