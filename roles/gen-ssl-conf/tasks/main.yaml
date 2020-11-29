@@ -1,6 +1,6 @@
-# - name: "Ading SANS from inventory file || Gen SSL Conf."
-#   vars:
-#     sannames: "{{ groups['k8s_nodes'] }}"
+- name: "Ading SANS from inventory file || Gen SSL Conf."
+  vars:
+    sannames: "{{ groups['k8s_nodes'] }}"
 
 # - name: Download file
 #   template:
@@ -9,9 +9,9 @@
 #     owner: root
 #     group: root
 #     mode: '0640'
-- name: play that sets a group to loop over
-  vars:
-    servers_to_monitor: "{{ groups['k8s_nodes'] }}"
+# - name: "play that sets a group to loop over"
+#   vars:
+#     servers_to_monitor: "{{ groups['k8s_nodes'] }}"
 
   # tasks:
   #   - template:
