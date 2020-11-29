@@ -1,4 +1,4 @@
-- name: Generating config file from node list 
+- name: Generating SSL config file from node list 
   vars:
     servers: "{{ groups['k8s_nodes'] }}"
   template:
@@ -9,9 +9,7 @@
 
   with_items: servers
 
-
-
-- name: Generating config file from node list 
+- name: Generating SSL config file from node IP 
   vars:
     servers: "{{ groups['k8s_nodes'] }}"
   template:
