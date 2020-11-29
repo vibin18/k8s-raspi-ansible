@@ -1,9 +1,11 @@
 - name: Create node-specific csync2 config files
+  vars:
+    servers: "{{ groups[k8s_nodes] }}"
   template:
     src: "/root/k8s-raspi-ansible/roles/gen-ssl-conf/files/ssl-template.j2"
     dest: "/root/k8s-raspi-ansible/roles/setup-ca/files/server-ssl.cnf"
     owner: root
     group: root
 
-  with_items: "{{ groups[k8s_nodes] }}"
+  with_items: servers
 
