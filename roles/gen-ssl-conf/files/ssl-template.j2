@@ -11,3 +11,8 @@ DNS.1 = kubernetes
 DNS.2 = kubernetes.default
 DNS.3 = kubernetes.default.svc
 DNS.4 = kubernetes.default.svc.cluster.local
+{% for host in san_names %}
+  {% set sanId = 5 %}
+  {% do {'DNS.'sanId}  %}
+  {% set sanId = 5 + 1 %}
+{% endfor %}

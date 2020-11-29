@@ -11,11 +11,12 @@
     group: root
     mode: '0640'
 
-- name: Adding SANs from inventory 
-  lineinfile:
-    dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
-    # regexp: "{{ item.regexp }}"
-    line: "DNS.{{ my_idx }} : {{ item }}"
-  loop: "{{ groups['k8s_nodes'] }}"
-  loop_control:
-    index_var: my_idx
+- name: play that sets a group to loop over
+  vars:
+    san_names : "{{ groups['k8s_nodes'] }}"
+  tasks:
+    - template:
+      src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
+      dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
+
+
