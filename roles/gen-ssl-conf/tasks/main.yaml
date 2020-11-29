@@ -4,5 +4,5 @@
 
   tasks:
     - template:
-      src: /root/k8s-raspi-ansible/roles/gen-ssl-conf/files/ssl-template.j2
-      dest: /root/k8s-raspi-ansible/roles/setup-ca/files/server-ssl.cnf
+      src: "/root/k8s-raspi-ansible/roles/gen-ssl-conf/files/ssl-template.j2"
+      dest: "/root/k8s-raspi-ansible/roles/setup-ca/files/server-ssl.cnf"
