@@ -3,14 +3,6 @@
 #   register: playbook_path_output
 # - debug: var=playbook_path_output.stdout
 
-- name: Generating ssl conf file from inventory
-  template:
-    src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
-    dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
-    owner: root
-    group: root
-    mode: '0640'
-
 - name: play that sets a group to loop over
   vars:
     san_names : "{{ groups['k8s_nodes'] }}"
@@ -18,5 +10,8 @@
     - template:
       src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
       dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
+      owner: root
+      group: root
+      mode: '0640'
 
 
