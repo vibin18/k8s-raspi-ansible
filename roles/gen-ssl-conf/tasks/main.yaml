@@ -1,4 +1,6 @@
 - name: "Create k8s certficate directory || CA setup. "
+  vars:
+    sannames: "{{ groups['k8s_nodes'] }}"
   file: 
     path: "{{ ca.certpath }}"
     owner: "{{ ca.dirowner }}"
