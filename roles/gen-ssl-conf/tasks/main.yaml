@@ -1,11 +1,16 @@
-- name: Create node-specific csync2 config files
+- name: Generating config file from node list 
   vars:
     servers: "{{ groups['k8s_nodes'] }}"
   template:
-    src: "/root/k8s-raspi-ansible/roles/gen-ssl-conf/files/ssl-template.j2"
-    dest: "/root/k8s-raspi-ansible/roles/setup-ca/files/server-ssl.cnf"
+    src: "/{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2"
+    dest: "/{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf"
     owner: root
     group: root
 
   with_items: servers
 
+
+- name: host
+   debug: msg="{{ item }}" 
+   with_items:
+    - "{{ hostvars['k8s_nodes'] }}"
