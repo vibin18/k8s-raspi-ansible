@@ -1,11 +1,10 @@
 - name: Play
-  hosts: HOST01
   vars:
     url: https://website.com/file.sh
   tasks:
      - name: Download file
        get_url:
-         url: {{ url }}
+         url: "{{ url }}"
          dest: /tmp/file.sh
          mode: 0777
 
