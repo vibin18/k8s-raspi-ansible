@@ -13,7 +13,7 @@
   vars:
     servers_to_monitor: "{{ groups['k8s_nodes'] }}"
 
-  tasks:
-    - template:
-      src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
-      dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
+  # tasks:
+  #   - template:
+  #     src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
+  #     dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
