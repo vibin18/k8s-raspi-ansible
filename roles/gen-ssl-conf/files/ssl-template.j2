@@ -16,8 +16,8 @@ DNS.4 = kubernetes.default.svc.cluster.local
 DNS.{{ sanId.value }} = {{ host }}
 {% set sanId.value = sanId.value + 1 %}
 {% endfor %}
-{% set sanId = namespace(value=5) %}
+{% set sanId = namespace(value=1) %}
 {% for host in servers %}
-DNS.{{ sanId.value }} = {{ hostvars[host]['ansible_host'] }}
+IP.{{ sanId.value }} = {{ hostvars[host]['ansible_host'] }}
 {% set sanId.value = sanId.value + 1 %}
 {% endfor %}
