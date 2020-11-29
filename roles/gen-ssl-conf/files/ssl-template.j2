@@ -1,1 +1,3 @@
-TEst : {{sannames}}
+{% for host in groups[k8s_nodes] %}
+TEst : {{ host }}
+{% endfor %}
