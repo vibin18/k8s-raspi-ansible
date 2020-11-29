@@ -13,4 +13,4 @@
 - name: host
    debug: msg="{{ item }}" 
    with_items:
-    - "{{ hostvars['k8s_nodes'] }}"
+    - "{{ groups['k8s_nodes'] }}"
