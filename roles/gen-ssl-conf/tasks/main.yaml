@@ -1,7 +1,7 @@
 - name: "Ading SANS from inventory file || Gen SSL Conf."
   vars:
-    sannames: "{{ groups['k8s_nodes'] }}"
-    
+    sannames: "tret"
+
   tasks:
     - template:
       src: /root/k8s-raspi-ansible/roles/gen-ssl-conf/files/ssl-template.j2
