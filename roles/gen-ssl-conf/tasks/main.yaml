@@ -1,11 +1,19 @@
-- name: "Ading SANS from inventory file || Gen SSL Conf."
-  vars:
-    sannames: "{{ groups['k8s_nodes'] }}"
+# - name: "Ading SANS from inventory file || Gen SSL Conf."
+#   vars:
+#     sannames: "{{ groups['k8s_nodes'] }}"
 
-- name: Download file
-  template:
-    src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
-    dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
-    owner: root
-    group: root
-    mode: '0640'
+# - name: Download file
+#   template:
+#     src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
+#     dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
+#     owner: root
+#     group: root
+#     mode: '0640'
+- name: play that sets a group to loop over
+  vars:
+    servers_to_monitor: "{{ groups['k8s_nodes'] }}"
+
+  tasks:
+    - template:
+      src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
+      dest: /{{ lookup('env', 'PWD') }}/roles/setup-ca/files/server-ssl.cnf
