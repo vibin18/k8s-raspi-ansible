@@ -1,11 +1,7 @@
-# - name: Find out playbook's path
-#   shell: pwd
-#   register: playbook_path_output
-# - debug: var=playbook_path_output.stdout
-
-- name: play that sets a group to loop over
+- name: "Test1"
   vars:
     san_names : "{{ groups['k8s_nodes'] }}"
+
   tasks:
     - template:
       src: /{{ lookup('env', 'PWD') }}/roles/gen-ssl-conf/files/ssl-template.j2
@@ -13,5 +9,3 @@
       owner: root
       group: root
       mode: '0640'
-
-
