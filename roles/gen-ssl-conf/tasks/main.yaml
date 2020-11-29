@@ -1,6 +1,6 @@
 - name: "Test1"
   vars:
-    san_names : "{{ groups['k8s_nodes'] }}"
+    sannames: "{{ groups['k8s_nodes'] }}"
 
   tasks:
     - template:
