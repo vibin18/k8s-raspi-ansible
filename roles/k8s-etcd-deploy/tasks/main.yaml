@@ -5,6 +5,7 @@
     group: "roo"
     mode: 0750 
     state: directory
+    recurse: yes
 
 
 - name: Generating systemd for etcd daemon.
