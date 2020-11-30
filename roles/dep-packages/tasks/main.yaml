@@ -24,9 +24,10 @@
     state: present
 
 - name: "Install packages"
-  package:
-    name: name={{ item }} 
+  apt:
+    name : {{ item }} 
     state: present
+    update_cache: yes
   with_items:
     - docker-ce
     - docker-ce-cli
