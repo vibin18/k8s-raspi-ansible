@@ -1,0 +1,14 @@
+- name: "Add an Apt signing key for cloud.google.com"
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: "Add kubernetes repository into sources list"
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+- name: "Install package kubectl"
+  package:
+    name: kubectl
+    state: present

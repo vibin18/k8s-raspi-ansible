@@ -14,27 +14,27 @@
     mode: 0755 
     state: directory
 
-- name: "Generate key for k8s api || CA setup. "
+- name: "Generate key for ca pair || CA setup. "
   shell: 'openssl genrsa -out {{ ca.certpath }}/{{ ca.keyfile }} 2048'
   args:
     creates: "{{ ca.certpath }}/{{ ca.keyfile }}"
 
-- name: "Generate self signed certs for k8s api || CA setup. "
+- name: "Generate self signed certs for ca || CA setup. "
   shell: 'openssl req -x509 -new -key {{ ca.certpath }}/{{ ca.keyfile }} -out {{ ca.certpath }}/{{ ca.certfile }} -subj "/O=kubernetes/CN=kubernetes" -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ ca.certpath }}/{{ ca.certfile }}"
 
-- name: "Generate key for k8s server || CA setup. "
+- name: "Generate key for k8s api server || CA setup. "
   shell: 'openssl genrsa -out {{ server.certpath }}/{{ server.keyfile }} 2048'
   args:
     creates: "{{ server.certpath }}/{{ server.keyfile }}"
 
-- name: "Generate csr for k8s server || CA setup. "
+- name: "Generate csr for k8s api server || CA setup. "
   shell: 'openssl req -new -key {{ server.certpath }}/{{ server.keyfile }} -subj "/CN={{ server.ip }}"  -out {{ server.reqpath }}/server.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 
-- name: "Generate certs for k8s server || CA setup. "
+- name: "Generate certs for k8s api server || CA setup. "
   shell: 'openssl x509 -req -in {{ server.reqpath }}/server.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ server.certpath }}/{{ server.certfile }} -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
