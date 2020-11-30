@@ -14,7 +14,7 @@ k8s_nodes:
 
 packages:
   docker:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
+    docker-ce
+    docker-ce-cli 
+    containerd.io
 
