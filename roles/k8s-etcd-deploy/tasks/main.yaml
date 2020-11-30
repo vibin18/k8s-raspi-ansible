@@ -1,3 +1,12 @@
+- name: "Create etcd data directory || CA setup. "
+  file: 
+    path: "/opt/k8s/etcd/data"
+    owner: "root"
+    group: "roo"
+    mode: 0750 
+    state: directory
+
+
 - name: Generating systemd for etcd daemon.
   vars:
     servers: "{{ groups['k8s_masters'] }}"
@@ -5,7 +14,7 @@
       version: v3.0.0
       token: my-etcd-token
       clusterstate: new
-      datapath: 'opt/k8s/etcd/data'
+      datapath: '/opt/k8s/etcd/data'
       image: 'quay.io/coreos/etcd'
   template:
     src: "{{ role_path }}/files/etcd-systemd.j2"
