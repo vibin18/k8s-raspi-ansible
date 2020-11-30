@@ -14,6 +14,6 @@
     - role: create-authfiles
       tags: authfiles
     - { role: create-authfiles,  tags: authfiles }
-    - role: dep-packages
-      tags: etcd-dependency
-    - { role: dep-packages,  tags: etcd-dependency }
+    - role: k8s-etcd-deploy
+      tags: etcd-deploy
+    - { role: k8s-etcd-deploy,  tags: etcd-deploy }
