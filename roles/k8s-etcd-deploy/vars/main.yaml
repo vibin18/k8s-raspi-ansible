@@ -1,6 +1,6 @@
 etcd:
   version: v3.0.0
   token: my-etcd-token
-  cluster-state: new
-  data-path: 'opt/k8s/etcd/data'
+  clusterstate: new
+  datapath: 'opt/k8s/etcd/data'
   image: 'quay.io/coreos/etcd'

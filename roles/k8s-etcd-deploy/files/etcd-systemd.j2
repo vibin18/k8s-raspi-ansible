@@ -1,5 +1,5 @@
 [Unit]
-Description=Etcd database for k8s
+Description="Etcd database for k8s"
 After=docker.service
 Requires=docker.service
 
@@ -9,11 +9,11 @@ ExecStartPre=-/usr/bin/docker kill etcd
 ExecStartPre=-/usr/bin/docker rm etcd
 ExecStartPre=/usr/bin/docker pull {{ etcd.image }}:{{ etcd.image }}
 ExecStart=/usr/bin/docker run --net=host --name etcd {{ etcd.image }}:{{ etcd.image }} \
-      /usr/local/bin/etcd --data-dir={{ etcd.data-path }} --name etcd-member01 \
+      /usr/local/bin/etcd --data-dir={{ etcd.datapath }} --name etcd-member01 \
       --initial-advertise-peer-urls http://{{ hostvars[host]['ansible_host'] }}:2380 --listen-peer-urls http://{{ hostvars[host]['ansible_host'] }}:2380 \
       --advertise-client-urls http://{{ hostvars[host]['ansible_host'] }}:2379 -listen-client-urls http://{{ hostvars[host]['ansible_host'] }}:2379 \
       --initial-cluster etcd-member01=http://{{ hostvars[host]['ansible_host'] }}:2380 \
-      --initial-cluster-state {{ etcd.cluster-state }} --initial-cluster-token {{ etcd.token }} 
+      --initial-cluster-state {{ etcd.clusterstate }} --initial-cluster-token {{ etcd.token }} 
 
 [Install]
 WantedBy=multi-user.target
