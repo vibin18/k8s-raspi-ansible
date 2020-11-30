@@ -1,7 +1,6 @@
 - name: "Checking if k8s binaries are avialable || Create-Authfiles setup. "
   stat: path="{{ etcdctl.binpath }}"
   register: EVELYN
-
 - name: "Trying to copy the binary from k8s binary location || Create-Authfiles setup. "
   copy:
     src: "{{ etcdctl.k8sbinpath }}"
@@ -19,7 +18,7 @@
 
 - name: "Generate auth files for ControlPlane || Create-Authfiles setup. "
   shell: |
-    kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
+    kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="https://{{ hostvars['kube00']['ansible_host'] }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-credentials "{{ item.service }}" --client-certificate="{{ controllmgr.certpath }}/{{ item.name }}.crt" --client-key="{{ controllmgr.certpath }}/{{ item.name }}.pem" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config set-context default --cluster=test --user="{{ item.service }}" --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
     kubectl config use-context default --kubeconfig="{{ controllmgr.authfilepath }}/{{ item.name }}.authfile"
@@ -31,11 +30,9 @@
 
 - name: "Generate auth files for nodes|| Create-Authfiles setup. "
   shell: |
-    kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="{{ server.url }}" --kubeconfig="{{ nodes.authfilepath }}/{{ item.node }}.authfile"
-    kubectl config set-credentials system:node:"{{ item.node }}" --client-certificate="{{ ca.certpath }}"/"{{ item.node }}".crt --client-key="{{ ca.certpath }}"/"{{ nodes.keyfile }}" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}"/"{{ item.node }}".authfile
-    kubectl config set-context default --cluster=test --user="system:node:{{ item.node }}" --kubeconfig="{{ nodes.authfilepath }}/{{ item.node }}.authfile"
-    kubectl config use-context default --kubeconfig="{{ nodes.authfilepath }}/{{ item.node }}.authfile"
-  with_items:
-    - { node: 'nuc1' }
-    - { node: 'nuc2' }
+    kubectl config set-cluster test --certificate-authority="{{ ca.certpath }}/{{ ca.certfile }}" --embed-certs=true --server="https://{{ hostvars['kube00']['ansible_host'] }}" --kubeconfig="{{ nodes.authfilepath }}/{{ item }}.authfile"
+    kubectl config set-credentials system:node:"{{ item }}" --client-certificate="{{ ca.certpath }}"/"{{ item }}".crt --client-key="{{ ca.certpath }}"/"{{ nodes.keyfile }}" --embed-certs=true --kubeconfig="{{ controllmgr.authfilepath }}"/"{{ item }}".authfile
+    kubectl config set-context default --cluster=test --user="system:node:{{ item }}" --kubeconfig="{{ nodes.authfilepath }}/{{ item }}.authfile"
+    kubectl config use-context default --kubeconfig="{{ nodes.authfilepath }}/{{ item }}.authfile"
+  with_items: "{{ groups['k8s_nodes'] }}"
 
