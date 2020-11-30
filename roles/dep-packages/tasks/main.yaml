@@ -23,11 +23,9 @@
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
     state: present
 
-- name: "Install package {{ item }}"
-  package:
-    name: {{ item }}
-    state: present
+- name: "Install packages"
+  apt: name={{ item }} state=installed
   with_items:
     - docker-ce
-    - docker-ce-cli 
+    - docker-ce-cli
     - containerd.io
