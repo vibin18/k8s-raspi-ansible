@@ -1,4 +1,4 @@
-- name: "Create etcd data directory || CA setup. "
+- name: "Create etcd data directory || etcd deploy."
   file: 
     path: "/opt/k8s/etcd/data"
     owner: "root"
@@ -8,7 +8,7 @@
     recurse: yes
 
 
-- name: Generating systemd for etcd daemon.
+- name: Generating systemd for etcd daemon || etcd deploy.
   vars:
     servers: "{{ groups['k8s_masters'] }}"
     etcd:
@@ -25,6 +25,6 @@
 
   with_items: servers
 
-- name: Reloading systemd
+- name: Reloading systemd || etcd deploy.
   systemd:
     daemon_reload: yes

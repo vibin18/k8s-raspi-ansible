@@ -1,29 +1,29 @@
-- name: "Add an apt signing key for cloud.google.com"
+- name: "Add an apt signing key for cloud.google.com || Dependency packages."
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
 
-- name: "Add kubernetes repository into sources list"
+- name: "Add kubernetes repository into sources list || Dependency packages."
   apt_repository:
     repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
     state: present
 
-- name: "Install package kubectl"
+- name: "Install package kubectl || Dependency packages."
   package:
     name: kubectl
     state: present
 
-- name: "Add an apt signing key for docker"
+- name: "Add an apt signing key for docker || Dependency packages."
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
-- name: "Add kubernetes repository into sources list"
+- name: "Add kubernetes repository into sources list || Dependency packages."
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
     state: present
 
-- name: "Install packages"
+- name: "Install packages || Dependency packages."
   apt:
     pkg:
     - docker-ce
