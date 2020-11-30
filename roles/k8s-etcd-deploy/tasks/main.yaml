@@ -1,6 +1,12 @@
 - name: Generating systemd for etcd daemon.
   vars:
     servers: "{{ groups['k8s_masters'] }}"
+    etcd:
+      version: v3.0.0
+      token: my-etcd-token
+      cluster-state: new
+      data-path: 'opt/k8s/etcd/data'
+      image: 'quay.io/coreos/etcd'
   template:
     src: "{{ role_path }}/files/etcd-systemd.j2"
     dest: "/etc/systemd/system/etcd.service"
