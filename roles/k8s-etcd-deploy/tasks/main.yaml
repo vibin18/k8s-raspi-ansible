@@ -1,0 +1,14 @@
+- name: Generating systemd for etcd daemon.
+  vars:
+    servers: "{{ groups['k8s_masters'] }}"
+  template:
+    src: "{{ role_path }}/files/etcd-systemd.j2"
+    dest: "/etc/systemd/system/etcd.service"
+    owner: root
+    group: root
+
+  with_items: servers
+
+- name: Reloading systemd
+  systemd:
+    daemon_reload: yes
