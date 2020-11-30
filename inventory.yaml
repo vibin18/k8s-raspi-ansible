@@ -11,3 +11,10 @@ k8s_nodes:
       ansible_host: 192.168.178.74
     kube02:
       ansible_host: 192.168.178.75
+
+packages:
+  docker:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+

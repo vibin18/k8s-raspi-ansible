@@ -24,12 +24,7 @@
     state: present
 
 - name: "Install package {{ item }}"
-  vars:
-    pkgs:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
   package:
     name: {{ item }}
     state: present
-  with_items: pkgs
+  with_items: pkgs"{{ packages['docker'] }}"
