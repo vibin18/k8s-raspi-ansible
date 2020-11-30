@@ -2,7 +2,7 @@
 Description="Etcd database for k8s"
 After=docker.service
 Requires=docker.service
-
+{% for server in servers %}
 [Service]
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill etcd
@@ -10,10 +10,10 @@ ExecStartPre=-/usr/bin/docker rm etcd
 ExecStartPre=/usr/bin/docker pull {{ etcd.image }}:{{ etcd.image }}
 ExecStart=/usr/bin/docker run --net=host --name etcd {{ etcd.image }}:{{ etcd.image }} \
       /usr/local/bin/etcd --data-dir={{ etcd.datapath }} --name etcd-member01 \
-      --initial-advertise-peer-urls http://{{ hostvars[servers]['ansible_host'] }}:2380 --listen-peer-urls http://{{ hostvars[servers]['ansible_host'] }}:2380 \
-      --advertise-client-urls http://{{ hostvars[servers]['ansible_host'] }}:2379 -listen-client-urls http://{{ hostvars[servers]['ansible_host'] }}:2379 \
-      --initial-cluster etcd-member01=http://{{ hostvars[servers]['ansible_host'] }}:2380 \
+      --initial-advertise-peer-urls http://{{ hostvars[server]['ansible_host'] }}:2380 --listen-peer-urls http://{{ hostvars[server]['ansible_host'] }}:2380 \
+      --advertise-client-urls http://{{ hostvars[server]['ansible_host'] }}:2379 -listen-client-urls http://{{ hostvars[server]['ansible_host'] }}:2379 \
+      --initial-cluster etcd-member01=http://{{ hostvars[server]['ansible_host'] }}:2380 \
       --initial-cluster-state {{ etcd.clusterstate }} --initial-cluster-token {{ etcd.token }} 
-
+{% endfor %}
 [Install]
 WantedBy=multi-user.target
