@@ -2,7 +2,7 @@
   file: 
     path: "/opt/k8s/etcd/data"
     owner: "root"
-    group: "roo"
+    group: "root"
     mode: 0750 
     state: directory
     recurse: yes
