@@ -25,10 +25,9 @@
 
 - name: "Install packages"
   apt:
-    name : {{ item }} 
-    state: present
-    update_cache: yes
-  with_items:
+    pkg:
     - docker-ce
     - docker-ce-cli
     - containerd.io
+    state: present
+    update_cache: yes
