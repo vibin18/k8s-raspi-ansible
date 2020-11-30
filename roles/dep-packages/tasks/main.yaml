@@ -1,4 +1,4 @@
-- name: "Add an Apt signing key for cloud.google.com"
+- name: "Add an apt signing key for cloud.google.com"
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
@@ -12,3 +12,24 @@
   package:
     name: kubectl
     state: present
+
+- name: "Add an apt signing key for docker"
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: "Add kubernetes repository into sources list"
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: "Install package {{ item }}"
+  vars:
+    pkgs:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  package:
+    name: {{ item }}
+    state: present
+  with_items: pkgs
