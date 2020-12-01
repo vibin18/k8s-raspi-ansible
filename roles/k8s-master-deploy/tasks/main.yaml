@@ -1,0 +1,11 @@
+- name: Generating systemd for kube-apiserver daemon || kube-apiserver deploy.
+  vars:
+    servers: "{{ groups['k8s_masters'] }}"
+    api:
+      version: v1.19.0-rc.1
+      image: 'gcr.io/google-containers/kube-apiserver-amd64'
+  template:
+    src: "{{ role_path }}/files/apiserver-systemd.j2"
+    dest: "/etc/systemd/system/kube-apiserver.service"
+    owner: root
+    group: root
