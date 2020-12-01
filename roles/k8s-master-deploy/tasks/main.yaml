@@ -9,3 +9,7 @@
     dest: "/etc/systemd/system/kube-apiserver.service"
     owner: root
     group: root
+
+- name: Reloading systemd || kube-apiserver deploy.
+  systemd:
+    daemon_reload: yes
