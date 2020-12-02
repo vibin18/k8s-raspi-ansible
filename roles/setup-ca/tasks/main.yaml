@@ -45,7 +45,7 @@
     creates: "{{ admin.certpath }}/{{ admin.keyfile }}"
 
 - name: "Generate csr for server admin || CA setup. "
-  shell: 'openssl req -new -key {{ admin.certpath }}/{{ admin.keyfile }} -subj "/CN=admin/O=system:masters"  -out {{ admin.reqpath }}/admin.csr -config {{ role_path }}/files/server-ssl.cnf' 
+  shell: 'openssl req -new -key {{ admin.certpath }}/{{ admin.keyfile }} -subj "/CN=kubernetes-admin/O=system:masters"  -out {{ admin.reqpath }}/admin.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ admin.certpath }}/{{ admin.certfile }}"
 

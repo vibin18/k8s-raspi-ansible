@@ -26,7 +26,7 @@
     - { name: 'controllmgr', service: 'system:kube-controller-manager' }
     - { name: 'scheduler', service: 'system:kube-scheduler' }
     - { name: 'kube-proxy', service: 'system:kube-proxy' }
-    - { name: 'admin', service: 'admin' }
+    - { name: 'admin', service: 'kubernetes-admin' }
 
 - name: "Generate auth files for nodes|| Create-Authfiles setup. "
   shell: |
