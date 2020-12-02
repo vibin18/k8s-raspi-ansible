@@ -12,7 +12,7 @@ ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro
 /usr/local/bin/kube-controller-manager --bind-address={{ hostvars[server]['ansible_host'] }} --authentication-kubeconfig=/opt/k8s/api-confs/controllmgr.authfile \
 --authorization-kubeconfig=/opt/k8s/api-confs/controllmgr.authfile --client-ca-file={{ api.volume }}ca-cert.crt \
 --cluster-cidr=10.0.0.0/16 --cluster-signing-cert-file={{ api.volume }}ca-cert.crt --cluster-signing-key-file={{ api.volume }}ca-key.pem \
---kubeconfig=/opt/k8s/api-confs/controllmgr.authfile --tls-private-key-file={{ api.volume }}controllmgr.pem 
+--kubeconfig=/opt/k8s/api-confs/controllmgr.authfile --tls-private-key-file={{ api.volume }}controllmgr.pem --tls-cert-file={{ api.volume }}controllmgr.crt
 {% endfor %}
 [Install]
 WantedBy=multi-user.target
