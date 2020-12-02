@@ -12,7 +12,7 @@ ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro
 /usr/local/bin/kube-apiserver --bind-address={{ hostvars[server]['ansible_host'] }} --allow-privileged=false --anonymous-auth=false \
 --apiserver-count=1 --authorization-mode=RBAC,Node --enable-admission-plugins=AlwaysAdmit,AlwaysPullImages,CertificateApproval,CertificateSigning,ServiceAccount,StorageObjectInUseProtection,TaintNodesByCondition,ValidatingAdmissionWebhook \
 --etcd-servers=http://{{ hostvars[server]['ansible_host'] }}:2379 --kubelet-certificate-authority=/opt/k8s/certs/ca-cert.crt \
---kubelet-client-certificate=/opt/k8s/certs/kube00.crt --kubelet-client-key=/opt/k8s/certs/node.pem --service-cluster-ip-range 192.168.0.0/16 \
+--kubelet-client-certificate=/opt/k8s/certs/kube-apiserver-kubelet-client.crt --kubelet-client-key=/opt/k8s/certs/kube-apiserver-kubelet-client.pem --service-cluster-ip-range 192.168.0.0/16 \
 --secure-port=6443 --tls-cert-file=/opt/k8s/certs/server-cert.crt --tls-private-key-file=/opt/k8s/certs/server-key.pem
 {% endfor %}
 [Install]
