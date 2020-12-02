@@ -42,3 +42,9 @@ proxy :
   dirowner: root
   keyfile: kube-proxy.pem
   certfile: kube-proxy.crt
+kubelet-client :
+  certpath: /opt/k8s/certs
+  reqpath: /opt/k8s/certs/cer-reqs
+  dirowner: root
+  keyfile: kube-apiserver-kubelet-client.pem
+  certfile: kube-apiserver-kubelet-client.crt
