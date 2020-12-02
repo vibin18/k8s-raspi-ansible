@@ -30,7 +30,7 @@
     creates: "{{ server.certpath }}/{{ server.keyfile }}"
 
 - name: "Generate csr for k8s api server || CA setup. "
-  shell: 'openssl req -new -key {{ server.certpath }}/{{ server.keyfile }} -subj "/CN={{ server.ip }}"  -out {{ server.reqpath }}/server.csr -config {{ role_path }}/files/server-ssl.cnf' 
+  shell: 'openssl req -new -key {{ server.certpath }}/{{ server.keyfile }} -subj "/CN=kube-apiserver"  -out {{ server.reqpath }}/server.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ server.certpath }}/{{ server.certfile }}"
 

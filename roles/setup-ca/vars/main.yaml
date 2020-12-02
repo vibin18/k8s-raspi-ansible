@@ -11,7 +11,7 @@ server:
   dirowner: root
   keyfile: server-key.pem
   certfile: server-cert.crt
-  ip: 192.168.0.203
+  ip: 192.168.178.73
 admin:
   certpath: /opt/k8s/certs
   reqpath: /opt/k8s/certs/cer-reqs
