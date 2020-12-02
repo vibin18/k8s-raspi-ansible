@@ -60,9 +60,9 @@
     creates: "{{ controllmgr.certpath }}/{{ controllmgr.keyfile }}"
 
 - name: "Generate csr for controllmgr || CA setup. "
-  shell: 'openssl req -new -key {{ controllmgr.certpath }}/{{ controllmgr.keyfile }} -subj "/CN=system:kube-controller-manager/O=system:kube-controller-manager"  -out {{ controllmgr.reqpath }}/controllmgr.csr -config {{ role_path }}/files/server-ssl.cnf' 
+  shell: 'openssl req -new -key {{ controllmgr.certpath }}/{{ controllmgr.keyfile }} -subj "/CN=system:kube-controller-manager"  -out {{ controllmgr.reqpath }}/controllmgr.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
-    creates: "{{ controllmgr.certpath }}/{{ controllmgr.certfile }}"
+    creates: "{{ controllmgr.reqpath }}/controllmgr.csr"
 
 - name: "Generate certs for controllmgr || CA setup. "
   shell: 'openssl x509 -req -in {{ controllmgr.reqpath }}/controllmgr.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ controllmgr.certpath }}/{{ controllmgr.certfile }} -days 10000 -extensions v3_req' 
@@ -75,9 +75,9 @@
     creates: "{{ scheduler.certpath }}/{{ scheduler.keyfile }}"
 
 - name: "Generate csr for scheduler || CA setup. "
-  shell: 'openssl req -new -key {{ scheduler.certpath }}/{{ scheduler.keyfile }} -subj "/CN=system:kube-scheduler/O=system:kube-scheduler"  -out {{ scheduler.reqpath }}/scheduler.csr -config {{ role_path }}/files/server-ssl.cnf' 
+  shell: 'openssl req -new -key {{ scheduler.certpath }}/{{ scheduler.keyfile }} -subj "/CN=system:kube-scheduler"  -out {{ scheduler.reqpath }}/scheduler.csr -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
-    creates: "{{ scheduler.certpath }}/{{ scheduler.certfile }}"
+    creates: "{{ scheduler.reqpath }}/scheduler.csr"
 
 - name: "Generate certs for scheduler || CA setup. "
   shell: 'openssl x509 -req -in {{ scheduler.reqpath }}/scheduler.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ scheduler.certpath }}/{{ scheduler.certfile }} -days 10000 -extensions v3_req' 
