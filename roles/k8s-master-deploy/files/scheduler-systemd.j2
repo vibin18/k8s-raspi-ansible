@@ -8,7 +8,7 @@ TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill kube-scheduler
 ExecStartPre=-/usr/bin/docker rm kube-scheduler
 ExecStartPre=/usr/bin/docker pull {{ api.image }}:{{ api.version }}
-ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro -v {{ apiVolume }}:{{ apiVolume }}:ro --name kube-scheduler {{ api.image }}:{{ api.version}} \
+ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro -v {{ api.authVolume }}:{{ api.authVolume  }}:ro --name kube-scheduler {{ api.image }}:{{ api.version}} \
 /usr/local/bin/kube-scheduler --bind-address={{ hostvars[server]['ansible_host'] }} --authentication-kubeconfig=/opt/k8s/api-confs/scheduler.authfile \
 --authorization-kubeconfig=/opt/k8s/api-confs/scheduler.authfile --client-ca-file={{ api.volume }}ca-cert.crt \
 --tls-cert-file={{ api.volume }}scheduler.crt --tls-private-key-file={{ api.volume }}scheduler.pem

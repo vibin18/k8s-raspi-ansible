@@ -8,7 +8,7 @@ TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill kube-controller-manager
 ExecStartPre=-/usr/bin/docker rm kube-controller-manager
 ExecStartPre=/usr/bin/docker pull {{ api.image }}:{{ api.version }}
-ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro -v {{ apiVolume }}:{{ apiVolume }}:ro --name kube-controller-manager {{ api.image }}:{{ api.version}} \
+ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro -v {{ api.authVolume }}:{{ api.authVolume  }}:ro --name kube-controller-manager {{ api.image }}:{{ api.version}} \
 /usr/local/bin/kube-controller-manager --bind-address={{ hostvars[server]['ansible_host'] }} --authentication-kubeconfig=/opt/k8s/api-confs/controllmgr.authfile \
 --authorization-kubeconfig=/opt/k8s/api-confs/controllmgr.authfile --client-ca-file={{ api.volume }}ca-cert.crt \
 --cluster-cidr=10.0.0.0/16 --cluster-signing-cert-file={{ api.volume }}ca-cert.crt --cluster-signing-key-file={{ api.volume }}ca-key.pem \
