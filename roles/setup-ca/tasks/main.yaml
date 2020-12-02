@@ -99,15 +99,15 @@
   args: 
     creates: "{{ proxy.certpath }}/{{ proxy.certfile }}"
 
-- name: "Generate csr for kube-apiserver-kubelet-client || CA setup. "
-  shell: 'openssl req -new -key {{ kubelet-client.certpath }}/{{ kubelet-client.keyfile }} -subj "/CN=kube-apiserver-kubelet-client/O=system:masters"  -out {{ kubelet-client.reqpath }}/proxy.csr' 
+- name: "Generate csr for kube-apiserver-kubeletClient || CA setup. "
+  shell: 'openssl req -new -key {{ kubeletClient.certpath }}/{{ kubeletClient.keyfile }} -subj "/CN=kube-apiserver-kubeletClient/O=system:masters"  -out {{ kubeletClient.reqpath }}/proxy.csr' 
   args: 
-    creates: "{{ kubelet-client.certpath }}/{{ kubelet-client.certfile }}"
+    creates: "{{ kubeletClient.certpath }}/{{ kubeletClient.certfile }}"
 
-- name: "Generate certs for kube-apiserver-kubelet-client  || CA setup. "
-  shell: 'openssl x509 -req -in {{ kubelet-client.reqpath }}/kubelet-client.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ kubelet-client.certpath }}/{{ kubelet-client.certfile }} -days 10000 -extensions v3_req' 
+- name: "Generate certs for kube-apiserver-kubeletClient  || CA setup. "
+  shell: 'openssl x509 -req -in {{ kubeletClient.reqpath }}/kubeletClient.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ kubeletClient.certpath }}/{{ kubeletClient.certfile }} -days 10000 -extensions v3_req' 
   args: 
-    creates: "{{ kubelet-client.certpath }}/{{ kubelet-client.certfile }}" 
+    creates: "{{ kubeletClient.certpath }}/{{ kubeletClient.certfile }}" 
 
 - name: "Generate certs for nodes || CA setup. "
   shell: |
