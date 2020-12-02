@@ -8,7 +8,7 @@ TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill kube-apiserver
 ExecStartPre=-/usr/bin/docker rm kube-apiserver
 ExecStartPre=/usr/bin/docker pull {{ api.image }}:{{ api.version }}
-ExecStart=/usr/bin/docker run --net=host --name kube-apiserver {{ api.image }}:{{ api.version}} \
+ExecStart=/usr/bin/docker run --net=host -v {{ api.volume }}:{{ api.volume }}:ro --name kube-apiserver {{ api.image }}:{{ api.version}} \
 /usr/local/bin/kube-apiserver --bind-address={{ hostvars[server]['ansible_host'] }} --allow-privileged=false --anonymous-auth=false \
 --apiserver-count=1 --authorization-mode=RBAC,Node --enable-admission-plugins=AlwaysAdmit,AlwaysPullImages,CertificateApproval,CertificateSigning,ServiceAccount,StorageObjectInUseProtection,TaintNodesByCondition,ValidatingAdmissionWebhook \
 --etcd-servers=http://{{ hostvars[server]['ansible_host'] }}:2379 --kubelet-certificate-authority=/opt/k8s/certs/ca-cert.crt \
