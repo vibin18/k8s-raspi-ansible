@@ -19,4 +19,4 @@
     - { role: k8s-etcd-deploy,  tags: etcd-deploy }
     - role: k8s-master-deploy
       tags: apiserver-deploy
-    - { role: k8s-master-deploy,  tags: apiserver-deploy }
+    - { role: k8s-master-deploy,  tags: master-deploy }
