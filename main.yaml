@@ -20,3 +20,6 @@
     - role: k8s-master-deploy
       tags: apiserver-deploy
     - { role: k8s-master-deploy,  tags: master-deploy }
+    - role: k8s-node-deploy
+      tags: node-deploy
+    - { role: k8s-node-deploy,  tags: node-deploy }

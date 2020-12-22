@@ -1,5 +1,9 @@
-- name: "Install package kubelet || Dependency packages."
-  apt: 
-    name: kubelet=1.19.4-00
-    state: installed
-    update_cache: yes
+- name: "Download k8s node binaries || k8s node deploy."
+  unarchive:
+    src: https://dl.k8s.io/v1.19.0/kubernetes-node-linux-amd64.tar.gz
+    dest: /opt/k8s/
+    remote_src: yes
+    exclude:
+      - LICENSES
+      - kubernetes-src.tar.gz
+
