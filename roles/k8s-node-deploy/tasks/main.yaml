@@ -11,13 +11,16 @@
       - LICENSES
       - kubernetes-src.tar.gz
 
-- name: Ensures /opt/k8s/node/conf/ dir exists
-  file: path=/opt/k8s/node/conf/ state=directory
-    owner: root
-    group: root
+- name: "Create node conf directory || k8s node deploy."
+  file: 
+    path: "/opt/k8s/node/conf"
+    owner: "root"
+    group: "root"
     mode: 0750 
+    state: directory
+    recurse: yes
 
-- name: Generating systemd for kubelet daemon || master deploy.
+- name: Generating systemd for kubelet daemon || k8s node deploy.
   template: # src={{item.src}} dest={{item.dest}}
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -28,6 +31,6 @@
     - { src: "files/kubelet-systemd.j2", dest: "/etc/systemd/system/kubelet.service" }
     - { src: "files/kubeletConfig.j2", dest: "/opt/k8s/node/conf/kubelet-config.yaml" }
 
-- name: Reloading systemd || master deploy.
+- name: Reloading systemd || k8s node deploy.
   systemd:
     daemon_reload: yes
