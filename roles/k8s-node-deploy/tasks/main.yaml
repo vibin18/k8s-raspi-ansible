@@ -16,7 +16,6 @@
     path: "/opt/k8s/node/conf"
     owner: "root"
     group: "root"
-    mode: 0750 
     state: directory
     recurse: yes
 
@@ -26,7 +25,6 @@
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    force: yes
   with_items:
     - { src: "files/kubelet-systemd.j2", dest: "/etc/systemd/system/kubelet.service" }
     - { src: "files/kubeletConfig.j2", dest: "/opt/k8s/node/conf/kubelet-config.yaml" }
