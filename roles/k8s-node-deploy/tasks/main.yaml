@@ -12,11 +12,12 @@
       - kubernetes-src.tar.gz
 
 - name: Generating systemd for kubelet daemon || master deploy.
-  template: src={{item.src}} dest={{item.dest}}
-    # src: "{{ item.src }}"
-    # dest: "{{ item.dest }}"
-    # owner: root
-    # group: root
+  # template: src={{item.src}} dest={{item.dest}}
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    force: yes
   with_items:
     - { src: "files/kubelet-systemd.j2", dest: "/etc/systemd/system/kubelet.service" }
     - { src: "files/kubeletConfig.j2", dest: "/opt/k8s/node/conf/kubelet-config.yaml" }
