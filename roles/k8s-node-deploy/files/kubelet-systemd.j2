@@ -4,11 +4,11 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-ExecStart=/opt/k8s/node/bin/kubelet \\
-  --config=/opt/k8s/node/conf/kubelet-config.yaml \\
-  --container-runtime=docker \\
-  --kubeconfig=/opt/k8s/api-confs/{{ inventory_hostname }}.authfile \\
-  --register-node=true \\
+ExecStart=/opt/k8s/node/bin/kubelet \
+  --config=/opt/k8s/node/conf/kubelet-config.yaml \
+  --container-runtime=docker \
+  --kubeconfig=/opt/k8s/api-confs/{{ inventory_hostname }}.authfile \
+  --register-node=true \
   --v=2
 Restart=on-failure
 RestartSec=5
