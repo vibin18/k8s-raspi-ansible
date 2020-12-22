@@ -12,7 +12,7 @@
       - kubernetes-src.tar.gz
 
 - name: Generating systemd for kubelet daemon || master deploy.
-  # template: src={{item.src}} dest={{item.dest}}
+  template: # src={{item.src}} dest={{item.dest}}
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: root
