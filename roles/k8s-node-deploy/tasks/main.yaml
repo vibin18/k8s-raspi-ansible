@@ -1,0 +1,5 @@
+- name: "Install package kubelet || Dependency packages."
+  apt: 
+    name: kubelet=1.19.4-00
+    state: installed
+    update_cache: yes
