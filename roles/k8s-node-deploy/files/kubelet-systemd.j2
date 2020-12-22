@@ -4,13 +4,10 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-ExecStart=/opt/k8s/node/kubelet \\
-  --config=/var/lib/kubelet/kubelet-config.yaml \\
-  --container-runtime=remote \\
-  --container-runtime-endpoint=unix:///var/run/containerd/containerd.sock \\
-  --image-pull-progress-deadline=2m \\
-  --kubeconfig=/var/lib/kubelet/kubeconfig \\
-  --network-plugin=cni \\
+ExecStart=/opt/k8s/node/bin/kubelet \\
+  --config=/opt/k8s/node/conf/kubelet-config.yaml \\
+  --container-runtime=docker \\
+  --kubeconfig=/opt/k8s/api-confs/kubeconfig/{{ ansible_host }}.authfile \\
   --register-node=true \\
   --v=2
 Restart=on-failure

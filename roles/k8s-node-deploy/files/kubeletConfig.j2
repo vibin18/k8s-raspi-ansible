@@ -6,15 +6,15 @@ authentication:
   webhook:
     enabled: true
   x509:
-    clientCAFile: "/var/lib/kubernetes/ca.pem"
+    clientCAFile: "/opt/k8s/certs/ca-cert.crt"
 authorization:
   mode: Webhook
 clusterDomain: "cluster.local"
 clusterDNS:
   - "10.32.0.10"
-podCIDR: "${POD_CIDR}"
+podCIDR: "10.0.0.0/16"
 resolvConf: "/run/systemd/resolve/resolv.conf"
 runtimeRequestTimeout: "15m"
-tlsCertFile: "/var/lib/kubelet/${HOSTNAME}.pem"
-tlsPrivateKeyFile: "/var/lib/kubelet/${HOSTNAME}-key.pem"
+tlsCertFile: "/opt/k8s/certs/{{ ansible_host }}.crt"
+tlsPrivateKeyFile: "/opt/k8s/certs/node.pem"
 EOF
