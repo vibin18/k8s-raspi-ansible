@@ -18,8 +18,8 @@
     owner: root
     group: root
   with_items:
-    - {{ src: '{{ role_path }}/files/kubelet-systemd.j2', dest: '/etc/systemd/system/kubelet.service' }}
-    - {{ src: '{{ role_path }}/files/kubeletConfig.j2', dest: '/opt/k8s/node/conf/kubelet-config.yaml' }}
+    - { src: 'files/kubelet-systemd.j2', dest: '/etc/systemd/system/kubelet.service' }
+    - { src: 'files/kubeletConfig.j2', dest: '/opt/k8s/node/conf/kubelet-config.yaml' }
 
 - name: Reloading systemd || master deploy.
   systemd:
