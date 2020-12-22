@@ -3,6 +3,10 @@
     src: https://dl.k8s.io/v1.19.0/kubernetes-node-linux-amd64.tar.gz
     dest: /opt/k8s/
     remote_src: yes
+    owner: root
+    group: root
+    mode: 0750 
+    extra_opts: [--strip-components=1]
     exclude:
       - LICENSES
       - kubernetes-src.tar.gz
