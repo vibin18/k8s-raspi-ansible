@@ -37,8 +37,8 @@
     owner: root
     group: root
   with_items:
-    - { src: "files/kubelet-systemd.j2", dest: "/etc/systemd/system/kube-proxy.service" }
-    - { src: "files/kube-proxyConfig.j2", dest: "/opt/k8s/node/conf/kube-proxy-config.yaml" }
+    - { src: "files/kube-proxyConfig.j2", dest: "/etc/systemd/system/kube-proxy.service" }
+    - { src: "files/kube-proxySystemd.j2", dest: "/opt/k8s/node/conf/kube-proxy-config.yaml" }
 
 - name: Reloading systemd || k8s node deploy.
   systemd:
