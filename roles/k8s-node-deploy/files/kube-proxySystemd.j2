@@ -1,0 +1,12 @@
+[Unit]
+Description=k8s kube-proxy
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/opt/k8s/node/bin/kube-proxy \
+  --config=/opt/k8s/node/conf/kube-proxy-config.yaml
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

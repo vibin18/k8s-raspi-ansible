@@ -1,0 +1,5 @@
+kind: KubeProxyConfiguration
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+clientConnection:
+  kubeconfig: "/opt/k8s/api-confs/{{ inventory_hostname }}.authfile"
+clusterCIDR: "10.200.0.0/16"

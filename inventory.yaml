@@ -1,12 +1,12 @@
 k8s_masters:
   hosts:
     kube00:
-      ansible_host: 192.168.178.73
+      ansible_host: 192.168.178.71
 
 k8s_nodes:
   hosts:
     kube00:
-      ansible_host: 192.168.178.73
+      ansible_host: 192.168.178.71
     kube01:
       ansible_host: 192.168.178.74
     kube02:
