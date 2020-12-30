@@ -1,3 +1,12 @@
+- name: "Generating SSL config file from node list || Generating cert config."
+  file: 
+    path: "/{{ lookup('env', 'PWD') }}/roles/setup-ca/files/
+    owner: "root"
+    group: "root"
+    state: directory
+    recurse: yes
+
+
 - name: Generating SSL config file from node list || Generating cert config.
   vars:
     servers: "{{ groups['k8s_nodes'] }}"
