@@ -42,7 +42,7 @@
 
 - name: Downloading official flanneld binary
   get_url:
-    url: "https://github.com/coreos/flannel/releases/download/{{ flannel_version }}/flanneld-amd64"
+    url: "https://github.com/coreos/flannel/releases/download/v0.10.0/flanneld-amd64"
     dest: "{{ flannel_bin_dir }}/flanneld"
     mode: 0750
 
