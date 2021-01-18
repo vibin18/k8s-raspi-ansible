@@ -1,5 +1,6 @@
 flannel_bin_dir: "/opt/k8s/flannel"
 etcd_listen_port: 2380
+etcd_client_port: 2379
 flannel_version: "v0.10.0"
 flannel_cni_spec_version: "0.3.1"
 flannel_etcd_prefix: "/coreos.com/network"
