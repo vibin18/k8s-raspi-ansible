@@ -25,6 +25,8 @@
     mode: 0600
 
 - name: Check if flannel network configuration in etcd is done
+  vars:
+    servers: "{{ groups['k8s_masters'] }}"
   shell: |
     docker run --rm --net=host quay.io/coreos/etcd etcdctl \
       --endpoints="http://{{ hostvars[server]['ansible_host'] }}:{{ etcd_client_port }}" \
@@ -33,6 +35,8 @@
   run_once: true
 
 - name: Setup flannel network configuration in etcd if needed
+  vars:
+    servers: "{{ groups['k8s_masters'] }}"
   shell: |
     docker run --rm --net=host quay.io/coreos/etcd etcdctl \
       --endpoints="http://{{ hostvars[server]['ansible_host'] }}:{{ etcd_client_port }}" \
