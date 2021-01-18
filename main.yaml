@@ -23,3 +23,6 @@
     - role: k8s-node-deploy
       tags: node-deploy
     - { role: k8s-node-deploy,  tags: node-deploy }
+    - role: flannel-setup
+      tags: flannel-deploy
+    - { role: flannel-setup,  tags: flannel-deploy }
