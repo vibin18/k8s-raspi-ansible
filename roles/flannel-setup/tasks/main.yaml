@@ -42,13 +42,13 @@
 
 - name: Downloading official flanneld binary
   get_url:
-    url: "https://github.com/coreos/flannel/releases/download/v0.10.0/flanneld-amd64"
+    url: "https://github.com/coreos/flannel/releases/download/{{ flannel_version }}/flanneld-amd64"
     dest: "{{ flannel_bin_dir }}/flanneld"
     mode: 0750
 
 - name: Install systemd service for flanneld
   template:
-    src: etc/systemd/system/flanneld.systemd.j2
+    src: "{{ role_path }}/files//flannel_systemd.j2"
     dest: /etc/systemd/system/flanneld.service
     owner: root
     group: root
