@@ -29,7 +29,7 @@
     servers: "{{ groups['k8s_masters'] }}"
   shell: |
     docker run --rm --net=host quay.io/coreos/etcd etcdctl \
-      --endpoints="http://{{ hostvars['k8s_masters']['ansible_host'] }}:{{ etcd_client_port }}" \
+      --endpoints="http://{{ hostvars['k8s_masters']['hosts'][inventory_hostname]['ansible_host'] }}:{{ etcd_client_port }}" \
       get {{ flannel_etcd_prefix }}/config || true
   register: flannel_configured
   run_once: true
@@ -39,7 +39,7 @@
     servers: "{{ groups['k8s_masters'] }}"
   shell: |
     docker run --rm --net=host quay.io/coreos/etcd etcdctl \
-      --endpoints="http://{{ hostvars['k8s_masters']['ansible_host'] }}:{{ etcd_client_port }}" \
+      --endpoints="http://{{ hostvars['k8s_masters']['hosts'][inventory_hostname]['ansible_host'] }}:{{ etcd_client_port }}" \
       set {{ flannel_etcd_prefix }}/config '{"Network":"{{ flannel_ip_range }}","Backend":{"Type": "{{ flannel_backend_type }}"}}'
   when: flannel_configured.stderr.find('Key not found') != -1
   run_once: true
