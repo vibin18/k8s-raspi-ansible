@@ -1,0 +1,18 @@
+flannel_bin_dir: "/opt/k8s/flannel"
+etcd_listen_port: 2380
+flannel_version: "v0.10.0"
+flannel_cni_spec_version: "0.3.1"
+flannel_etcd_prefix: "/coreos.com/network"
+flannel_ip_range: "10.5.0.0/16"
+flannel_backend_type: vxlan
+k8s_cni_conf_dir: "/etc/cni/net.d"
+flannel_cni_interface: "wlp2s0"
+flannel_settings:
+  "net-config-path": "{{ k8s_cni_conf_dir}}"
+  "etcd-endpoints": http://{{ hostvars[server]['ansible_host'] }}:2379
+  "etcd-prefix": "{{ flannel_etcd_prefix }}"
+  "iface": "{{ hostvars[server]['ansible_host'] }}"
+  "public-ip": "{{ hostvars[server]['ansible_host'] }}"
+  "ip-masq": "true"
+  "healthz-ip": "0.0.0.0"
+  "healthz-port": "0" # 0 = disable

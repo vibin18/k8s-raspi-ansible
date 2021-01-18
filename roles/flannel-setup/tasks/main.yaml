@@ -1,0 +1,55 @@
+---
+- name: Gather instance facts
+  setup:
+
+- name: Create Flannel config directory
+  file:
+    path: "{{ flannel_bin_dir }}"
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+
+- name: Create CNI config directory
+  file:
+    path: "{{ k8s_cni_conf_dir }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Install flanneld CNI config
+  template:
+    src: "{{ role_path }}/files/flannel-conf.j2"
+    dest: "{{ k8s_cni_conf_dir }}/10-flannel.conflist"
+    mode: 0600
+
+- name: Check if flannel network configuration in etcd is done
+  shell: |
+    docker run --rm --net=host quay.io/coreos/etcd etcdctl \
+      --endpoints="http://{{ hostvars[server]['ansible_host'] }}:{{ etcd_client_port }}" \
+      get {{ flannel_etcd_prefix }}/config || true
+  register: flannel_configured
+  run_once: true
+
+- name: Setup flannel network configuration in etcd if needed
+  shell: |
+    docker run --rm --net=host quay.io/coreos/etcd etcdctl \
+      --endpoints="http://{{ hostvars[server]['ansible_host'] }}:{{ etcd_client_port }}" \
+      set {{ flannel_etcd_prefix }}/config '{"Network":"{{ flannel_ip_range }}","Backend":{"Type": "{{ flannel_backend_type }}"}}'
+  when: flannel_configured.stderr.find('Key not found') != -1
+  run_once: true
+
+- name: Downloading official flanneld binary
+  get_url:
+    url: "https://github.com/coreos/flannel/releases/download/{{ flannel_version }}/flanneld-amd64"
+    dest: "{{ flannel_bin_dir }}/flanneld"
+    mode: 0750
+
+- name: Install systemd service for flanneld
+  template:
+    src: etc/systemd/system/flanneld.systemd.j2
+    dest: /etc/systemd/system/flanneld.service
+    owner: root
+    group: root
+    mode: 0644

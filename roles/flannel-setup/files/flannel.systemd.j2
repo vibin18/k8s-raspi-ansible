@@ -1,0 +1,21 @@
+#jinja2: trim_blocks:False
+
+[Unit]
+Description=Flannel for k8s
+After=network.target
+After=network-online.target
+Wants=network-online.target
+Before=docker.service
+
+[Service]
+Type=notify
+Restart=always
+
+ExecStart={{flannel_bin_dir}}/flanneld \
+{%- for setting in flannel_settings|sort %}
+  --{{setting}}={{flannel_settings[setting]}} {% if not loop.last %}\{% endif %}
+{%- endfor %}
+
+[Install]
+WantedBy=multi-user.target
+RequiredBy=docker.service
