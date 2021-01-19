@@ -8,8 +8,7 @@ TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill etcd
 ExecStartPre=-/usr/bin/docker rm etcd
 ExecStartPre=/usr/bin/docker pull {{ etcd.image }}:{{ etcd.version }}
-ExecStart=/usr/bin/docker run --net=host -v {{ etcd.datapath }}:{{ etcd.datapath }}:rw --name etcd {{ etcd.image }}:{{ etcd.version}} \
-      /usr/local/bin/etcd --data-dir={{ etcd.datapath }} --name etcd-member01 \
+ExecStart=/opt/k8s/etcd/bin/etcd --data-dir={{ etcd.datapath }} --name etcd-member01 \
       --initial-advertise-peer-urls http://{{ hostvars[server]['ansible_host'] }}:2380 --listen-peer-urls http://{{ hostvars[server]['ansible_host'] }}:2380 \
       --advertise-client-urls http://{{ hostvars[server]['ansible_host'] }}:2379 -listen-client-urls http://{{ hostvars[server]['ansible_host'] }}:2379 \
       --initial-cluster etcd-member01=http://{{ hostvars[server]['ansible_host'] }}:2380 \

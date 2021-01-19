@@ -7,6 +7,30 @@
     state: directory
     recurse: yes
 
+- name: "Create etcd data directory || etcd deploy."
+  file: 
+    path: "/opt/k8s/etcd/bin"
+    owner: "root"
+    group: "root"
+    mode: 0750 
+    state: directory
+    recurse: yes
+
+- name: "Download etcd binaries || k8s node deploy."
+  unarchive:
+    src: /github.com/etcd-io/etcd/releases/download/v3.4.14/etcd-v3.4.14-linux-amd64.tar.gz
+    dest: "/opt/k8s/etcd/bin"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0750 
+    extra_opts: [--strip-components=1]
+    exclude:
+      - Documentation
+      - README-etcdctl.md
+      - README.md
+      - READMEv2-etcdctl.md
+
 
 - name: Generating systemd for etcd daemon || etcd deploy.
   vars:
