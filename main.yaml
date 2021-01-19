@@ -1,5 +1,5 @@
 - name: Setting up k8s 
-  hosts: k8s_masters
+  hosts: k8s_masters,k8s_nodes
 
   roles:
     - role: gen-ssl-conf
