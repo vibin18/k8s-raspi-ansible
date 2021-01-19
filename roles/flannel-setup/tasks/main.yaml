@@ -26,7 +26,7 @@
 
 - name: Check if flannel network configuration in etcd is done
   shell: |
-    docker run --rm --net=host quay.io/coreos/etcd etcdctl \
+    /opt/k8s/etcd/bin/etcdctl \
       --endpoints="http://{{ hostvars['kube00']['ansible_host'] }}:{{ etcd_client_port }}" \
       get {{ flannel_etcd_prefix }}/config || true
   register: flannel_configured
@@ -34,7 +34,7 @@
 
 - name: Setup flannel network configuration in etcd if needed
   shell: |
-    docker run --rm --net=host quay.io/coreos/etcd etcdctl \
+    /opt/k8s/etcd/bin/etcdctl \
       --endpoints="http://{{ hostvars['kube00']['ansible_host'] }}:{{ etcd_client_port }}" \
       set {{ flannel_etcd_prefix }}/config '{"Network":"{{ flannel_ip_range }}","Backend":{"Type": "{{ flannel_backend_type }}"}}'
   when: flannel_configured.stderr.find('Key not found') != -1
