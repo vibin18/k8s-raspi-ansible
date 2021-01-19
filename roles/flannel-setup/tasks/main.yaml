@@ -28,7 +28,7 @@
   shell: |
     /opt/k8s/etcd/bin/etcdctl \
       --endpoints="http://{{ hostvars['kube00']['ansible_host'] }}:{{ etcd_client_port }}" \
-      get {{ flannel_etcd_prefix }}/config || true
+      get /coreos.com/network/config || true
   register: flannel_configured
   run_once: true
 
@@ -36,7 +36,7 @@
   shell: |
     /opt/k8s/etcd/bin/etcdctl \
       --endpoints="http://{{ hostvars['kube00']['ansible_host'] }}:{{ etcd_client_port }}" \
-      set {{ flannel_etcd_prefix }}/config '{"Network":"{{ flannel_ip_range }}","Backend":{"Type": "{{ flannel_backend_type }}"}}'
+      set /coreos.com/network/config '{"Network":"{{ flannel_ip_range }}","Backend":{"Type": "{{ flannel_backend_type }}"}}'
   when: flannel_configured.stderr.find('Key not found') != -1
   run_once: true
 
