@@ -11,8 +11,8 @@ flannel_cni_interface: "wlp2s0"
 flannel_settings:
   "etcd-endpoints": http://{{ hostvars['kube00']['ansible_host'] }}:2379
   "etcd-prefix": "{{ flannel_etcd_prefix }}"
-  "iface": "{{ hostvars['kube00']['ansible_host'] }}"
-  "public-ip": "{{ hostvars['kube00']['ansible_host'] }}"
+  "iface": "{{ ansible_default_ipv4.address }}"
+  "public-ip": "{{ ansible_default_ipv4.address }}"
   "ip-masq": "true"
   "healthz-ip": "0.0.0.0"
   "healthz-port": "0" # 0 = disable
