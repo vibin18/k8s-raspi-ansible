@@ -18,7 +18,7 @@
 
 - name: "Download etcd binaries || k8s node deploy."
   unarchive:
-    src: /github.com/etcd-io/etcd/releases/download/v3.4.14/etcd-v3.4.14-linux-amd64.tar.gz
+    src: https://github.com/etcd-io/etcd/releases/download/v3.4.14/etcd-v3.4.14-linux-amd64.tar.gz
     dest: "/opt/k8s/etcd/bin"
     remote_src: yes
     owner: root
