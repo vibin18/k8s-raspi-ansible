@@ -121,6 +121,6 @@
 - name: "Generate certs for nodes || CA setup. "
   shell: |
     openssl req -new -key {{ nodes.certpath }}/{{ nodes.keyfile }} -subj "/CN=system:node:{{item}}/O=system:nodes"  -out {{ nodes.reqpath }}/{{item}}.csr -config {{ role_path }}/files/server-ssl.cnf
-    openssl x509 -req -in {{ nodes.reqpath }}/{{item}}.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{item}}.crt -days 10000 -extensions v3_req -config {{ role_path }}/files/server-ssl.cnf
+    openssl x509 -req -in {{ nodes.reqpath }}/{{item}}.csr -CA {{ ca.certpath }}/{{ ca.certfile }} -CAkey {{ ca.certpath }}/{{ ca.keyfile }} -CAcreateserial -out {{ nodes.certpath }}/{{item}}.crt -days 10000 -extensions v3_req -extfile {{ role_path }}/files/server-ssl.cnf
   with_items: "{{ groups['k8s_nodes'] }}"
 
