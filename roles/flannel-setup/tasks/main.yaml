@@ -24,20 +24,11 @@
     dest: "{{ k8s_cni_conf_dir }}/10-flannel.conflist"
     mode: 0600
 
-- name: Check if flannel network configuration in etcd is done
-  shell: |
-    /opt/k8s/etcd/bin/etcdctl \
-      --endpoints="http://{{ hostvars['kube00']['ansible_host'] }}:{{ etcd_client_port }}" \
-      get /coreos.com/network/config || true
-  register: flannel_configured
-  run_once: true
-
 - name: Setup flannel network configuration in etcd if needed
   shell: |
-    /opt/k8s/etcd/bin/etcdctl \
+     ETCDCTL_API=2 /opt/k8s/etcd/bin/etcdctl \
       --endpoints="http://{{ hostvars['kube00']['ansible_host'] }}:{{ etcd_client_port }}" \
-      set /coreos.com/network/config '{"Network":"{{ flannel_ip_range }}","Backend":{"Type": "{{ flannel_backend_type }}"}}'
-  when: flannel_configured.stderr.find('Key not found') != -1
+      set /coreos.com/network/config '{"Network": "{{ flannel_ip_range }}","Backend": {"Type": "{{ flannel_backend_type }}"}}'
   run_once: true
 
 - name: Downloading official flanneld binary
@@ -53,3 +44,4 @@
     owner: root
     group: root
     mode: 0644
+
