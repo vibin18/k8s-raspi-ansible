@@ -3,10 +3,10 @@
 
   roles:
     - role: gen-ssl-conf
-      tags: ssl
+      tags: gen-conf
     - { role: gen-ssl-conf,  tags: ssl }
     - role: setup-ca
-      tags: certs
+      tags: gen-certs
     - { role: setup-ca,  tags: certs }
     - role: dep-packages
       tags: packages
