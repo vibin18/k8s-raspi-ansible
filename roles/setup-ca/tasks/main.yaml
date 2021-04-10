@@ -20,7 +20,7 @@
     creates: "{{ ca.certpath }}/{{ ca.keyfile }}"
 
 - name: "Generate self signed certs for ca || CA setup. "
-  shell: 'openssl req -x509 -new -key {{ ca.certpath }}/{{ ca.keyfile }} -out {{ ca.certpath }}/{{ ca.certfile }} -subj "/O=kubernetes/CN=kubernetes" -config {{ role_path }}/files/server-ssl.cnf' 
+  shell: 'openssl req -x509 -new -key {{ ca.certpath }}/{{ ca.keyfile }} -out {{ ca.certpath }}/{{ ca.certfile }} -subj "/O=kubernetes/CN=kubernetes" -days 1000 -config {{ role_path }}/files/server-ssl.cnf' 
   args: 
     creates: "{{ ca.certpath }}/{{ ca.certfile }}"
 
